@@ -73,6 +73,7 @@ statement:
     | while_statement
     | try_catch_statement
     | return_statement SEMICOLON
+    | throw_statement SEMICOLON
     | expression_statement SEMICOLON
     | import_export_statement SEMICOLON
     | USE_STRICT SEMICOLON
@@ -244,6 +245,11 @@ import_export_statement:
 return_statement:
     RETURN expression
     | RETURN
+    ;
+
+throw_statement:
+    THROW expression
+    | THROW
     ;
 
 %%
