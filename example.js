@@ -35,7 +35,7 @@ class Library {
     }
 
     addBook(title, author, year) {
-        
+       
         if (!title || !author || !year) {
             throw new Error("Все поля (название, автор, год) обязательны");
         }
@@ -116,8 +116,8 @@ class Library {
         const total = this.books.length;
         const read = this.books.filter(b => b.isRead).length;
         const unread = total - read;
-//        const oldest = this.books.reduce((min, b) => b.year < min.year ? b : min, this.books[0]);
-//        const newest = this.books.reduce((max, b) => b.year > max.year ? b : max, this.books[0]);
+        const oldest = this.books.reduce((min, b) => b.year < min.year ? b : min, this.books[0]);
+        const newest = this.books.reduce((max, b) => b.year > max.year ? b : max, this.books[0]);
         
         return {
             total,

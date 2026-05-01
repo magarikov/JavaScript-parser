@@ -219,16 +219,19 @@ arrow_body:
 
 /* Управляющие конструкции */
 if_statement:
-    IF LPAREN expression RPAREN statement %prec LOWER_THAN_ELSE
+    IF LPAREN expression RPAREN statement
+    | IF LPAREN expression RPAREN LBRACE statement RBRACE
     | IF LPAREN expression RPAREN statement ELSE statement
     ;
 
 while_statement:
     WHILE LPAREN expression RPAREN statement
+    | WHILE LPAREN expression RPAREN LBRACE statement RBRACE
     ;
 
 for_statement:
     FOR LPAREN variable_declaration SEMICOLON expression SEMICOLON expression RPAREN statement
+    | FOR LPAREN variable_declaration SEMICOLON expression SEMICOLON expression RPAREN LBRACE statement RBRACE
     ;
 
 try_catch_statement:

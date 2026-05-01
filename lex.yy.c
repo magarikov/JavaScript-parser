@@ -1139,7 +1139,7 @@ YY_RULE_SETUP
 #line 82 "jsParser.l"
 { return URSHIFT; }
 	YY_BREAK
-/* Операторы сравнения[cite: 1, 2] */
+/* Операторы сравнения */
 case 41:
 YY_RULE_SETUP
 #line 85 "jsParser.l"
@@ -1190,7 +1190,7 @@ YY_RULE_SETUP
 #line 95 "jsParser.l"
 { return OPTIONAL_CHAIN; }
 	YY_BREAK
-/* Математика и присваивание[cite: 1, 2] */
+/* Математика и присваивание */
 case 51:
 YY_RULE_SETUP
 #line 98 "jsParser.l"
