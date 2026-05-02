@@ -18,7 +18,7 @@ OCT            0[oO][0-7]+
 /* Числа с подчеркиванием, экспонентой и BigInt */
 NUM_LITERAL    {DIGIT}({DIGIT}|_)*(\.{DIGIT}+)?([eE][-+]?{DIGIT}+)?n?
 /* Идентификаторы: разрешены $, _ и буквы */
-ID             [a-zA-Z_$][a-zA-Z0-9_$]*
+ID [a-zA-Z_$][a-zA-Z0-9_$]*
 /* Обычные строки и шаблонные строки ` ` */
 STRING_LIT     \"(\\.|[^"\\])*\"|\'(\\.|[^'\\])*\'|`(\\.|[^`\\])*`
 
@@ -71,11 +71,11 @@ STRING_LIT     \"(\\.|[^"\\])*\"|\'(\\.|[^'\\])*\'|`(\\.|[^`\\])*`
     /* Логические и битовые операторы */
 "&&"            { return AND; }
 "||"            { return OR; }
-"!"             { return NOT; }
-"&"             { return BIT_AND; }
-"|"             { return BIT_OR; }
-"^"             { return BIT_XOR; }
-"~"             { return BIT_NOT; }
+"!" { return NOT; }
+"&" { return BIT_AND; }
+"|" { return BIT_OR; }
+"^" { return BIT_XOR; }
+"~" { return BIT_NOT; }
 "<<"            { return LSHIFT; }
 ">>"            { return RSHIFT; }
 ">>>"           { return URSHIFT; }
@@ -87,8 +87,8 @@ STRING_LIT     \"(\\.|[^"\\])*\"|\'(\\.|[^'\\])*\'|`(\\.|[^`\\])*`
 "!="            { return NOT_EQUAL; }
 ">="            { return GE; }
 "<="            { return LE; }
-">"             { return G; }
-"<"             { return L; }
+">" { return G; }
+"<" { return L; }
 
 "..."           { return SPREAD; }
 "?."            { return OPTIONAL_CHAIN; }
@@ -103,25 +103,26 @@ STRING_LIT     \"(\\.|[^"\\])*\"|\'(\\.|[^'\\])*\'|`(\\.|[^`\\])*`
 "**="           { return POW_ASSIGN; }
 "**"            { return POW; }
 "=>"            { return ARROW; }
-"="             { return ASSIGN; }
-"+"             { return PLUS; }
-"-"             { return MINUS; }
-"*"             { return MUL; }
-"/"             { return DIV; }
-"%"             { return MOD; }
+"=" { return ASSIGN; }
+"+" { return PLUS; }
+"-" { return MINUS; }
+"*" { return MUL; }
+"/" { return DIV; }
+"%" { return MOD; }
 
     /* Пунктуация[cite: 1] */
-"("             { return LPAREN; }
-")"             { return RPAREN; }
-"{"             { return LBRACE; }
-"}"             { return RBRACE; }
-"["             { return LBRACKET; }
-"]"             { return RBRACKET; }
-";"             { return SEMICOLON; }
-","             { return COMMA; }
-"."             { return DOT; }
-"?"             { return QUESTION; }
-":"             { return COLON; }
+"(" { return LPAREN; }
+")" { return RPAREN; }
+"{" { return LBRACE; }
+"}" { return RBRACE; }
+"[" { return LBRACKET; }
+"]" { return RBRACKET; }
+";" { return SEMICOLON; }
+"," { return COMMA; }
+"." { return DOT; }
+"?" { return QUESTION; }
+":" { return COLON; }
+    /*"\n" { return NEW_LINE; }*/
 
     /* Идентификаторы[cite: 1] */
 {ID} { 

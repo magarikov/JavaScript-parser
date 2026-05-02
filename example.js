@@ -206,7 +206,10 @@ function loadLibrary(key = "library_data") {
 // ==================== Пример использования ====================
 
 const myLibrary = new Library("Мои любимые книги");
+a = 1e-2;
+console.log(a);
 
+/*
 myLibrary.addBook("1984", "Джордж Оруэлл", 1949);
 myLibrary.addBook("Мастер и Маргарита", "Михаил Булгаков", 1967);
 myLibrary.addBook("Преступление и наказание", "Фёдор Достоевский", 1866);
@@ -246,3 +249,4 @@ console.log("\n💾 Библиотека сохранена в localStorage!");
 
 const loadedLib = loadLibrary();
 console.log(`\n📀 Загружено: ${loadedLib.books.length} книг`);
+*/

@@ -1322,10 +1322,11 @@ YY_RULE_SETUP
 #line 125 "jsParser.l"
 { return COLON; }
 	YY_BREAK
+/*"\n" { return NEW_LINE; }*/
 /* Идентификаторы[cite: 1] */
 case 77:
 YY_RULE_SETUP
-#line 128 "jsParser.l"
+#line 129 "jsParser.l"
 { 
     yylval.str = strdup(yytext); 
     return IDENTIFIER; 
@@ -1335,24 +1336,24 @@ YY_RULE_SETUP
 case 78:
 /* rule 78 can match eol */
 YY_RULE_SETUP
-#line 134 "jsParser.l"
+#line 135 "jsParser.l"
 { /* игнорировать */ }
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 135 "jsParser.l"
+#line 136 "jsParser.l"
 { /* пропуск однострочных комментариев */ }
 	YY_BREAK
 case 80:
 /* rule 80 can match eol */
 YY_RULE_SETUP
-#line 136 "jsParser.l"
+#line 137 "jsParser.l"
 { /* пропуск многострочных комментариев */ }
 	YY_BREAK
 /* Ошибка */
 case 81:
 YY_RULE_SETUP
-#line 139 "jsParser.l"
+#line 140 "jsParser.l"
 { 
     fprintf(stderr, "Lexical Error: Unknown symbol '%s' at line %d\n", yytext, yylineno);
     exit(1); 
@@ -1360,10 +1361,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
-#line 144 "jsParser.l"
+#line 145 "jsParser.l"
 ECHO;
 	YY_BREAK
-#line 1366 "lex.yy.c"
+#line 1367 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2380,5 +2381,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 144 "jsParser.l"
+#line 145 "jsParser.l"
 

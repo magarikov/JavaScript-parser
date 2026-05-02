@@ -25,7 +25,7 @@ void yyerror(const char *s);
 %token STRICT_EQUAL STRICT_NOT_EQUAL EQUAL NOT_EQUAL GE LE G L
 %token INC DEC ADD_ASSIGN SUB_ASSIGN MUL_ASSIGN DIV_ASSIGN POW_ASSIGN POW ARROW ASSIGN
 %token PLUS MINUS MUL DIV MOD
-%token LPAREN RPAREN LBRACE RBRACE LBRACKET RBRACKET SEMICOLON COMMA DOT QUESTION COLON
+%token LPAREN RPAREN LBRACE RBRACE LBRACKET RBRACKET SEMICOLON COMMA DOT QUESTION COLON 
 %token NULL_TOKEN UNDEFINED NAN_TOKEN INFINITY_TOKEN
 /* Добавлены твои токены для Spread и опциональной цепочки */
 %token SPREAD OPTIONAL_CHAIN TRIPLE_DOT
@@ -65,16 +65,19 @@ statements:
     ;
 
 statement:
-    variable_declaration SEMICOLON
+    variable_declaration
+    | variable_declaration SEMICOLON
     | function_declaration
     | class_declaration
     | if_statement
     | for_statement
     | while_statement
     | try_catch_statement
+    | return_statement
     | return_statement SEMICOLON
+    | throw_statement
     | throw_statement SEMICOLON
-    | expression_statement SEMICOLON
+    | expression SEMICOLON
     | import_export_statement SEMICOLON
     | USE_STRICT SEMICOLON
     ;
@@ -92,6 +95,7 @@ declaration_keyword:
 /* Функции и классы */
 function_declaration:
     FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
+    | LPAREN FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE RPAREN
     ;
 
 parameters:
@@ -120,9 +124,6 @@ class_member:
     ;
 
 /* Выражения */
-expression_statement:
-    expression
-    ;
 
 expression:
     primary_expression
@@ -136,6 +137,7 @@ expression:
     | expression POW expression
     | expression EQUAL expression
     | expression STRICT_EQUAL expression
+    | expression STRICT_NOT_EQUAL expression
     | expression NOT_EQUAL expression
     | expression AND expression
     | expression OR expression
@@ -145,6 +147,10 @@ expression:
     | expression LE expression
     | expression ASSIGN expression
     | expression ADD_ASSIGN expression
+    | expression SUB_ASSIGN expression
+    | expression MUL_ASSIGN expression
+    | expression DIV_ASSIGN expression
+    | expression POW_ASSIGN expression
     | expression QUESTION expression COLON expression
     | expression DOT IDENTIFIER
     | expression OPTIONAL_CHAIN IDENTIFIER  
@@ -222,6 +228,7 @@ if_statement:
     IF LPAREN expression RPAREN statement
     | IF LPAREN expression RPAREN LBRACE statement RBRACE
     | IF LPAREN expression RPAREN statement ELSE statement
+    | IF LPAREN expression RPAREN LBRACE statement ELSE statement RBRACE
     ;
 
 while_statement:
@@ -237,6 +244,7 @@ for_statement:
 try_catch_statement:
     TRY LBRACE statements RBRACE CATCH LPAREN IDENTIFIER RPAREN LBRACE statements RBRACE
     | TRY LBRACE statements RBRACE FINALLY LBRACE statements RBRACE
+    | TRY LBRACE statements RBRACE CATCH LPAREN IDENTIFIER RPAREN LBRACE statements RBRACE FINALLY LBRACE statements RBRACE
     ;
 
 import_export_statement:
