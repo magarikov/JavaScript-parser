@@ -19,13 +19,13 @@ void yyerror(const char *s);
 
 /* Определение токенов */
 %token <str> IDENTIFIER NUMBER STRING BOOLEAN
-%token CONST LET VAR_KEYWORD FUNCTION CLASS CONSTRUCTOR THIS NEW RETURN
+%token CONST LET VAR_KEYWORD FUNCTION CLASS CONSTRUCTOR THIS NEW RETURN AS GET STATIC
 %token IF ELSE FOR WHILE TYPEOF USE_STRICT IMPORT EXPORT FROM TRY CATCH FINALLY THROW
 %token AND OR NOT BIT_AND BIT_OR BIT_XOR BIT_NOT LSHIFT RSHIFT URSHIFT
 %token STRICT_EQUAL STRICT_NOT_EQUAL EQUAL NOT_EQUAL GE LE G L
 %token INC DEC ADD_ASSIGN SUB_ASSIGN MUL_ASSIGN DIV_ASSIGN POW_ASSIGN POW ARROW ASSIGN
 %token PLUS MINUS MUL DIV MOD
-%token LPAREN RPAREN LBRACE RBRACE LBRACKET RBRACKET SEMICOLON COMMA DOT QUESTION COLON 
+%token LPAREN RPAREN LBRACE RBRACE LBRACKET RBRACKET SEMICOLON COMMA DOT QUESTION COLON /*NEW_LINE*/
 %token NULL_TOKEN UNDEFINED NAN_TOKEN INFINITY_TOKEN
 /* Добавлены твои токены для Spread и опциональной цепочки */
 %token SPREAD OPTIONAL_CHAIN TRIPLE_DOT
@@ -66,7 +66,7 @@ statements:
 
 statement:
     variable_declaration
-    | variable_declaration SEMICOLON
+    | variable_declaration terminator
     | function_declaration
     | class_declaration
     | if_statement
@@ -74,12 +74,19 @@ statement:
     | while_statement
     | try_catch_statement
     | return_statement
-    | return_statement SEMICOLON
+    | return_statement terminator
     | throw_statement
-    | throw_statement SEMICOLON
-    | expression SEMICOLON
-    | import_export_statement SEMICOLON
-    | USE_STRICT SEMICOLON
+    | throw_statement terminator
+    | expression terminator
+    | import_export_statement
+    | import_export_statement terminator
+    | USE_STRICT terminator
+    | terminator
+    ;
+
+terminator:
+    SEMICOLON
+    /*| NEW_LINE*/
     ;
 
 /* Переменные */
@@ -95,7 +102,8 @@ declaration_keyword:
 /* Функции и классы */
 function_declaration:
     FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
-    | LPAREN FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE RPAREN
+    | LPAREN FUNCTION LPAREN parameters RPAREN LBRACE statements RBRACE RPAREN expression terminator
+    | LPAREN FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE RPAREN expression terminator
     ;
 
 parameters:
@@ -120,7 +128,12 @@ class_body:
 
 class_member:
     CONSTRUCTOR LPAREN parameters RPAREN LBRACE statements RBRACE
+    | IDENTIFIER terminator
     | IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
+    | GET IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
+    | STATIC IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
+    | STATIC GET IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
+    ;
     ;
 
 /* Выражения */
@@ -176,14 +189,17 @@ primary_expression:
     | UNDEFINED
     | NAN_TOKEN
     | INFINITY_TOKEN
+    | LBRACE RBRACE   
     | LPAREN arguments RPAREN            
     | LBRACKET elements RBRACKET         
     | LBRACE object_properties RBRACE    
+    | FUNCTION LPAREN parameters RPAREN LBRACE statements RBRACE 
     ;
 
 /* Элементы массива (поддержка Spread) */
 elements:
     elements COMMA element
+    | elements COMMA
     | element
     | /* пусто */
     ;
@@ -247,11 +263,34 @@ try_catch_statement:
     | TRY LBRACE statements RBRACE CATCH LPAREN IDENTIFIER RPAREN LBRACE statements RBRACE FINALLY LBRACE statements RBRACE
     ;
 
+
+/* Обновленное правило импорта */
 import_export_statement:
-    IMPORT IDENTIFIER FROM STRING
+      IMPORT import_clause FROM STRING
+    | IMPORT STRING                      /* Для импорта без привязки: import 'file.js' */
     | EXPORT variable_declaration
     | EXPORT function_declaration
+    | EXPORT class_declaration
     ;
+
+import_clause:
+      IDENTIFIER                         /* import mojo from '...' */
+    | LBRACE import_list RBRACE          /* import { a, b as c } from '...' */
+    | IDENTIFIER COMMA LBRACE import_list RBRACE /* Смешанный: import mojo, { a } from '...' */
+    | MUL AS IDENTIFIER                  /* import * as mojo from '...' */
+    ;
+
+import_list:
+      import_list COMMA import_specifier
+    | import_specifier
+    | /* пусто */
+    ;
+
+import_specifier:
+      IDENTIFIER                         /* TimeSpec */
+    | IDENTIFIER AS IDENTIFIER           /* TimeSpec as mojoBase */
+    ;
+
 
 return_statement:
     RETURN expression

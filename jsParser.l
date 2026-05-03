@@ -47,6 +47,9 @@ STRING_LIT     \"(\\.|[^"\\])*\"|\'(\\.|[^'\\])*\'|`(\\.|[^`\\])*`
 "catch"         { return CATCH; }
 "finally"       { return FINALLY; }
 "throw"         { return THROW; }
+"as"         { return AS; }
+"static"        { return STATIC; }
+"get"           { return GET; }
 
     /* Литералы и специальные значения */
 "true"          { yylval.str = strdup(yytext); return BOOLEAN; }
