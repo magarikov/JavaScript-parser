@@ -53,7 +53,7 @@ void yyerror(const char *s);
 
 %%
 
-/* Грамматика */
+// Грамматика
 
 program:
     statements
@@ -61,7 +61,7 @@ program:
 
 statements:
     statements statement
-    | /* пусто */
+    |  
     ;
 
 statement:
@@ -89,7 +89,7 @@ terminator:
     /*| NEW_LINE*/
     ;
 
-/* Переменные */
+// Переменные
 variable_declaration:
     declaration_keyword IDENTIFIER
     | declaration_keyword IDENTIFIER ASSIGN expression
@@ -99,7 +99,7 @@ declaration_keyword:
     CONST | LET | VAR_KEYWORD
     ;
 
-/* Функции и классы */
+// Функции и классы
 function_declaration:
     FUNCTION IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
     | LPAREN FUNCTION LPAREN parameters RPAREN LBRACE statements RBRACE RPAREN expression terminator
@@ -109,7 +109,7 @@ function_declaration:
 parameters:
     parameters COMMA parameter
     | parameter
-    | /* пусто */
+    |  
     ;
 
 parameter:
@@ -123,7 +123,7 @@ class_declaration:
 
 class_body:
     class_body class_member
-    | /* пусто */
+    |  
     ;
 
 class_member:
@@ -136,7 +136,7 @@ class_member:
     ;
     ;
 
-/* Выражения */
+// Выражения 
 
 expression:
     primary_expression
@@ -176,7 +176,7 @@ expression:
     | DEC expression
     | expression DEC
     | NOT expression
-    | primary_expression ARROW arrow_body  /* Покрывает и book =>, и (a,b) => */
+    | primary_expression ARROW arrow_body  // Покрывает и book =>, и (a,b) => 
     ;
 
 primary_expression:
@@ -196,12 +196,12 @@ primary_expression:
     | FUNCTION LPAREN parameters RPAREN LBRACE statements RBRACE 
     ;
 
-/* Элементы массива (поддержка Spread) */
+// Элементы массива (поддержка Spread) 
 elements:
     elements COMMA element
     | elements COMMA
     | element
-    | /* пусто */
+    |  
     ;
 
 element:
@@ -209,11 +209,11 @@ element:
     | SPREAD expression
     ;
 
-/* Аргументы вызова функций */
+// Аргументы вызова функций 
 arguments:
     arguments COMMA argument
     | argument
-    | /* пусто */
+    |  
     ;
 
 argument:
@@ -221,25 +221,27 @@ argument:
     | SPREAD expression
     ;
 
-/* Свойства объектов (Убрано пустое правило для избежания reduce/reduce) */
+// Свойства объектов (Убрано пустое правило для избежания reduce/reduce) 
 object_properties:
     object_properties COMMA property
     | property
     ;
-
+    
 property:
     IDENTIFIER COLON expression
-    | IDENTIFIER                         
-    | IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE 
+    | STRING COLON expression     
+    | IDENTIFIER
+    | IDENTIFIER LPAREN parameters RPAREN LBRACE statements RBRACE
     ;
 
-/* Тело стрелочной функции */
+
+// Тело стрелочной функции
 arrow_body:
     expression
     | LBRACE statements RBRACE
     ;
 
-/* Управляющие конструкции */
+// Управляющие конструкции 
 if_statement:
     IF LPAREN expression RPAREN statement
     | IF LPAREN expression RPAREN LBRACE statement RBRACE
@@ -264,7 +266,7 @@ try_catch_statement:
     ;
 
 
-/* Обновленное правило импорта */
+// Обновленное правило импорта 
 import_export_statement:
       IMPORT import_clause FROM STRING
     | IMPORT STRING                      /* Для импорта без привязки: import 'file.js' */
@@ -283,12 +285,12 @@ import_clause:
 import_list:
       import_list COMMA import_specifier
     | import_specifier
-    | /* пусто */
+    |  
     ;
 
 import_specifier:
-      IDENTIFIER                         /* TimeSpec */
-    | IDENTIFIER AS IDENTIFIER           /* TimeSpec as mojoBase */
+      IDENTIFIER
+    | IDENTIFIER AS IDENTIFIER
     ;
 
 
@@ -304,7 +306,7 @@ throw_statement:
 
 %%
 
-/* Обработка ошибок */
+
 void yyerror(const char *s) {
     fprintf(stderr, "Syntax Error at line %d: %s\n", yylineno, s);
 }

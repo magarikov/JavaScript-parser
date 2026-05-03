@@ -642,11 +642,12 @@ char *yytext;
 
 void yyerror(const char *s);
 #line 644 "lex.yy.c"
-/* Регулярные выражения для сложных конструкций JS */
-/* Числа с подчеркиванием, экспонентой и BigInt */
-/* Идентификаторы: разрешены $, _ и буквы */
-/* Обычные строки и шаблонные строки ` ` */
-#line 649 "lex.yy.c"
+#line 14 "jsParser.l"
+    // Регулярные выражения для сложных конструкций JS 
+    // Числа с подчеркиванием, экспонентой и BigInt
+    // Идентификаторы: разрешены $, _ и буквы
+    // Обычные строки и шаблонные строки ` `
+#line 650 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -863,11 +864,10 @@ YY_DECL
 		}
 
 	{
-#line 25 "jsParser.l"
+#line 26 "jsParser.l"
 
 
-#line 28 "jsParser.l"
-    /* Ключевые слова (Keywords) */
+    //       КЛЮЧЕВЫЕ СЛОВА
 #line 871 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
@@ -1091,7 +1091,7 @@ YY_RULE_SETUP
 #line 61 "jsParser.l"
 { return INFINITY_TOKEN; }
 	YY_BREAK
-/* Числа (все форматы из Синтаксис.md)[cite: 1] */
+/* числа */
 case 32:
 YY_RULE_SETUP
 #line 64 "jsParser.l"
@@ -1100,7 +1100,7 @@ YY_RULE_SETUP
     return NUMBER; 
 }
 	YY_BREAK
-/* Строки (включая обратные кавычки)[cite: 1] */
+/* Строки */
 case 33:
 /* rule 33 can match eol */
 YY_RULE_SETUP
@@ -1110,7 +1110,7 @@ YY_RULE_SETUP
     return STRING; 
 }
 	YY_BREAK
-/* Логические и битовые операторы */
+/* Логические и битовые операторы */ 
 case 34:
 YY_RULE_SETUP
 #line 76 "jsParser.l"
@@ -1161,7 +1161,7 @@ YY_RULE_SETUP
 #line 85 "jsParser.l"
 { return URSHIFT; }
 	YY_BREAK
-/* Операторы сравнения */
+/* Операторы сравнения */ 
 case 44:
 YY_RULE_SETUP
 #line 88 "jsParser.l"
@@ -1212,7 +1212,7 @@ YY_RULE_SETUP
 #line 98 "jsParser.l"
 { return OPTIONAL_CHAIN; }
 	YY_BREAK
-/* Математика и присваивание */
+/* Математика и присваивание */ 
 case 54:
 YY_RULE_SETUP
 #line 101 "jsParser.l"
@@ -1288,7 +1288,7 @@ YY_RULE_SETUP
 #line 115 "jsParser.l"
 { return MOD; }
 	YY_BREAK
-/* Пунктуация[cite: 1] */
+/* Пунктуация */
 case 69:
 YY_RULE_SETUP
 #line 118 "jsParser.l"
@@ -1345,7 +1345,7 @@ YY_RULE_SETUP
 { return COLON; }
 	YY_BREAK
 /*"\n" { return NEW_LINE; }*/
-/* Идентификаторы[cite: 1] */
+/* Идентификаторы */
 case 80:
 YY_RULE_SETUP
 #line 132 "jsParser.l"
@@ -1354,23 +1354,23 @@ YY_RULE_SETUP
     return IDENTIFIER; 
 }
 	YY_BREAK
-/* Пропуски и комментарии[cite: 1, 2] */
+/* Пропуски и комментарии */
 case 81:
 /* rule 81 can match eol */
 YY_RULE_SETUP
 #line 138 "jsParser.l"
-{ /* игнорировать */ }
+{ /* игноририм */ }
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
 #line 139 "jsParser.l"
-{ /* пропуск однострочных комментариев */ }
+{ /* комментарии */ }
 	YY_BREAK
 case 83:
 /* rule 83 can match eol */
 YY_RULE_SETUP
 #line 140 "jsParser.l"
-{ /* пропуск многострочных комментариев */ }
+{ /* многострочные комментарии */ }
 	YY_BREAK
 /* Ошибка */
 case 84:

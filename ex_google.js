@@ -21,7 +21,7 @@ export class ActionChipsHandlerPendingReceiver {
     }
 }
 
-class ActionChipsHandlerRemote {
+export class ActionChipsHandlerRemote {
     proxy;
     $;
     onConnectionError;
